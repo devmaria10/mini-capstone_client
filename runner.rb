@@ -4,11 +4,11 @@ system "clear"
 
 puts "Welcome to my Products App."
 puts "Make a selection"
-puts "     [1] See all products  
-puts "     [2] See one product 
-puts "     [3] Create a new product 
-puts "     [4] Update a product 
-puts "     [5] Delete a product 
+puts "     [1] See all products  "
+puts "     [2] See one product "
+puts "     [3] Create a new product "
+puts "     [4] Update a product "
+puts "     [5] Delete a product "
 
 input_option = gets.chomp 
 
@@ -16,12 +16,14 @@ if input_option == "1"
   response = Unirest.get("http://localhost:3000/products")
   products = response.body 
   puts JSON.pretty_generate(products)
+
 elsif input_option == "2"
   print "Enter product id: "
   input_id = gets.chomp 
   response = Unirest.get("http://localhost:3000/products/#{product_id}")
   product = response.body
   puts JSON.pretty_generate(product)
+
 elsif input_option == "3"
   client_params[:name] = gets.chomp
   client_params[:price] = gets.chomp
@@ -31,8 +33,17 @@ elsif input_option == "3"
   response = Unirest.post(
                           "http://localhost:3000/products", parameters: client_params
                           )
-  product = response.body 
-  puts JSON.pretty_generate(product_data)
+  if response.code == 200
+    product_data = response.body
+    puts JSON.pretty_generate(product_data)
+
+  else
+    errors = response.body["errors"]
+    errors.each do |error|
+      puts error
+    end 
+  end 
+
 elsif input_option == "4"
   print "Enter product id: "
   input_id = gets.chomp 
@@ -54,7 +65,7 @@ elsif input_option == "4"
   client_params[:image_url] = gets.chomp 
 
   print "Description (#{product["description"]}): "
-  client_parama[:description] = gets.chomp 
+  client_params[:description] = gets.chomp 
 
   client_params.delete_if { |key, value| } value.empty? }
   # p client_params 
@@ -62,8 +73,21 @@ elsif input_option == "4"
                            "http://localhost:3000/products/#{input_id}"), 
                            parameters: client_params
                            )
+
+  if response.code == 200
+    product_data = response.body
+    puts JSON.pretty_generate(product_data)
+
+  else
+    errors = response.body["errors"]
+    errors.each do |error|
+      puts error
+    end 
+  end 
+                           
   product_data = response.body 
   puts JSON.pretty_generate(product_data)
+
 elsif input_option == "5"
   print "Enter product id: "
   input_id = gets.chomp 
@@ -72,10 +96,6 @@ elsif input_option == "5"
   data = response.body 
   puts data["message"]
 end 
-
-
-
-
 
 response = Unirest.get('http://localhost:3000/products')
 data = response.body
