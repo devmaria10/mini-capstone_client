@@ -5,6 +5,7 @@ system "clear"
 puts "Welcome to my Products App."
 puts "Make a selection"
 puts "     [1] See all products  "
+puts "        [1.1] Search all products by name "
 puts "     [2] See one product "
 puts "     [3] Create a new product "
 puts "     [4] Update a product "
@@ -16,6 +17,14 @@ if input_option == "1"
   response = Unirest.get("http://localhost:3000/products")
   products = response.body 
   puts JSON.pretty_generate(products)
+
+elsif input_option == "1.1"
+  print "Enter a name to search by: "
+  search_term = gets.chomp 
+
+ response = Unirest.get("http://localhost:3000/products?search=#{search_term}")
+  products = response.body 
+  puts JSON.pretty_generate(products) 
 
 elsif input_option == "2"
   print "Enter product id: "
