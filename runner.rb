@@ -1,23 +1,31 @@
 require 'unirest'
 
-system "clear"
 
-puts "Welcome to my Products App."
-puts "Make a selection"
-puts "     [1] See all products  "
-puts "        [1.1] Search all products by name "
-puts "     [2] See one product "
-puts "     [3] Create a new product "
-puts "     [4] Update a product "
-puts "     [5] Delete a product "
+class Frontend
+
+  def products_index_action
+    response = Unirest.get("http://localhost:3000/products")
+    products = response.body 
+    puts JSON.pretty_generate(products)
+  end 
+
+  def run
+    system "clear"
+
+  puts "Welcome to my Products App."
+  puts "Make a selection"
+  puts "     [1] See all products  "
+  puts "        [1.1] Search all products by name "
+  puts "     [2] See one product "
+  puts "     [3] Create a new product "
+  puts "     [4] Update a product "
+  puts "     [5] Delete a product "
 
 input_option = gets.chomp 
 
 if input_option == "1"
-  response = Unirest.get("http://localhost:3000/products")
-  products = response.body 
-  puts JSON.pretty_generate(products)
-
+  products_index_actions
+ 
 elsif input_option == "1.1"
   print "Enter a name to search by: "
   search_term = gets.chomp 
@@ -58,8 +66,8 @@ elsif input_option == "4"
   input_id = gets.chomp 
 
   response = Unirest.get(
-                          "http://localhost:3000/products/#{input_id"}"
-                          )
+                        "http://localhost:3000/products/#{input_id}
+                        )
   product = response.body
 
   client_params = {}
@@ -79,7 +87,7 @@ elsif input_option == "4"
   client_params.delete_if { |key, value| } value.empty? }
   # p client_params 
   response = Unirest.patch(
-                           "http://localhost:3000/products/#{input_id}"), 
+                           "http://localhost:3000/products/#{input_id}", 
                            parameters: client_params
                            )
 
@@ -110,3 +118,7 @@ response = Unirest.get('http://localhost:3000/products')
 data = response.body
 
 puts JSON.pretty_generate(data)
+  end 
+end 
+
+Frontend.new.run 
