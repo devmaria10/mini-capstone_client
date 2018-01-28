@@ -100,4 +100,32 @@ module ProductsController
     data = response.body
     puts data["message"]
   end
+
+  def products_search_action
+    print "Enter a name to search by: "
+    search_term = gets.chomp 
+
+    response = Unirest.get("http://localhost:3000/products?search=#{search_term}")
+     product_hashs = response.body
+    products = []
+
+    product_hashs.each do |product_hash|
+      products << Product.new(product_hash)
+    product_hashs = response.body 
+  end
+
+  products_index_action(products)
+
+  def products_sort_action(attribute)
+    response = Unirest.get("http://localhost:3000/products?search=#{search_term}")
+     product_hashs = response.body
+    products = []
+
+    product_hashs.each do |product_hash|
+      products << Product.new(product_hash)
+    products = response.body 
+    puts JSON.pretty_generate(products) 
+  end  
+
+  products_index_view(products)
 end

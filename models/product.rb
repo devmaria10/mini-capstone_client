@@ -7,4 +7,15 @@ class Product
     @description = input_options["description"]
     @description = input_options["description"]
   end 
+
+  def self.convert_hashs(product_hashs)
+    collection = []
+
+    product_hashs.each do |product_hash|
+    collection << Product.new(product_hash)
+  end 
+
+  collection 
+
+end 
 end 

@@ -47,4 +47,27 @@ class Frontend
     products_destroy_action
   end
 end
+
+private
+  def get_request(url)
+    response = Unirest.get("http://localhost:3000#{url}")
+    response.body
+  end 
+
+  def post_request(url, client_params={})
+    response = Unirest.get("http://localhost:3000#{url}", parameters: client_params)
+    if response.code == 200
+      return response.body
+    else
+      return nil 
+    end 
+  end 
+
+  def patch_request(url)
+    response = Unirest.get("http://localhost:3000#{url}", parameters: client_params).body
+  end 
+
+  def delete_request(url)
+    response = Unirest.get("http://localhost:3000#{url}", parameters: client_params).body
+  end 
 end 
