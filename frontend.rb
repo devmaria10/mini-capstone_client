@@ -10,7 +10,7 @@ class Frontend
   def run
     system "clear"
 
-    puts "Welcome to my Nerd Store"
+    puts "Welcome to my Pinata Store"
     puts "make a selection"
     puts "    [1] See all products"
     puts "        [1.1] Search products by name"
@@ -21,6 +21,7 @@ class Frontend
     puts "    [3] Create a new product"
     puts "    [4] Update a product"
     puts "    [5] Destroy a product"
+    puts "    [6] Show all orders  "
 
     input_option = gets.chomp
 
