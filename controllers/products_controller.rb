@@ -23,9 +23,8 @@ module ProductsController
                        quantity: input_quantity,
                        product_id: input_id
                       }
-      # json_data = post_request("/orders", client_params)
 
-      response = Unirest.post("http://localhost:3000/orders", parameters: client_params)
+      response = Unirest.post("http://localhost:3000/carted_products", parameters: client_params)
       if response.code == 200
         puts JSON.pretty_generate(response.body)
       elsif response.code == 401
@@ -34,15 +33,9 @@ module ProductsController
     end
   end
 
-
-    end
-  end
-
   def products_create_action
     client_params = products_new_form
-    # json_data = post_request("/products", client_params)
     response = Unirest.post("http://localhost:3000/products", parameters: client_params)
-
 
     if response.code == 200
       product = Product.new(response.body)
@@ -98,6 +91,4 @@ module ProductsController
     products_index_view(products)
   end
 end
-
-
 
